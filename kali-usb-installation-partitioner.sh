@@ -9,16 +9,16 @@ sgdisk --change-name=1:/boot --change-name=2:GRUB --change-name=3:EFI-SP --chang
 sgdisk --hybrid 1:2:3 /dev/sdb
 sgdisk --print /dev/sdb
 
-cryptsetup luksFormat --type=luks1 /dev/sda1
-cryptsetup luksFormat /dev/sda4
-cryptsetup luksFormat /dev/sda5
+cryptsetup luksFormat --type=luks1 /dev/sdb1
+cryptsetup luksFormat /dev/sdb4
+cryptsetup luksFormat /dev/sdb5
 
-cryptsetup open /dev/sda1 LUKS_BOOT
-cryptsetup open /dev/sda4 LUKS_SWAP
-cryptsetup open /dev/sda5 LUKS_ROOT
+cryptsetup open /dev/sdb1 LUKS_BOOT
+cryptsetup open /dev/sdb4 LUKS_SWAP
+cryptsetup open /dev/sdb5 LUKS_ROOT
 
 mkfs.ext4 -L boot /dev/mapper/LUKS_BOOT
-mkfs.vfat -F 16 -n EFI-SP /dev/sda3
+mkfs.vfat -F 16 -n EFI-SP /dev/sdb3
 mkswap -L swap /dev/mapper/LUKS_SWAP
 mkfs.btrfs -L root /dev/mapper/LUKS_ROOT
 
